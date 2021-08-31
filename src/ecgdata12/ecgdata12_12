@@ -1,0 +1,191 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Between, MoreThan, InsertResult } from 'typeorm';
+import { Ecgdata12 } from './ecgdata12.entity';
+import { User } from '../users/user.entity';
+import { Ecg3_raw } from '../users/ecg3_raw.entity';
+import { Ecgrealtime3 } from '../ecgrealtime3/ecgrealtime3.entity'
+import { Ecg3_denoised } from '../ecgrealtime3/ecg3_denoised.entity';
+import { UserService } from 'src/users/user.service';
+import { ApiAcceptedResponse } from '@nestjs/swagger';
+const sample_rate=256;
+@Injectable()
+export class Ecgdata12Service {
+	constructor(
+	    @InjectRepository(Ecgdata12)
+	    private readonly ecgdata12Repository: Repository<Ecgdata12>,
+	    @InjectRepository(User)
+	    private readonly userRepository: Repository<User>,
+	    private readonly userService: UserService
+  	) { }
+    
+	  async createEcgdata12(params): Promise<InsertResult> {
+	    return await this.ecgdata12Repository.createQueryBuilder()
+	      .insert()
+	      .into(Ecgdata12)
+	      .values(params)
+	      .execute();
+	  }
+
+	  async findEcgdata12ByUser(params) {
+	    // find all
+	    params.from=parseInt(params.from);
+	    params.to=parseInt(params.to);
+	    //if (!params.from && !params.limit && !params.to)
+		
+	    //  return await this.ecgdata12Repository.find({user: { userId: params.id }});
+	    //query.where.time = Between(params.from, params.to);
+	    //   else {
+	    //   query.where.time = MoreThan(params.from);
+	    //   //query.take = params.limit || 2304;
+	    //  }
+
+	    //if (params.to) {
+
+  var total_packetaaa: any = [];   
+  
+  //if(check.get_12leads > params.from && !params.to) {
+  //return total_packetaaa;
+  //}
+
+      const query: any = {
+      where: {  userId : params.id },
+       order: { time: 'DESC' },
+       };
+var check;       
+check = await this.userRepository.findOne({where:{userId:params.id}});
+if(!check) {
+console.log("No this user");
+return "No this user";
+}
+if(params.to) {
+query.where.time= {$gte:(params.from) , $lt:(params.to)};
+query.take=5;
+    }
+    else if(params.from) {
+      query.where.time= {$gte:(params.from) , $lt:(params.from+5)};
+     query.take=5;
+      }
+      else if(params.from==0){
+      var n:any=[];
+    console.log("null time");
+    var temp={
+    'userId':params.id,
+    'time':Math.floor(check.lasttime_12lead-5),
+      'I':null,
+      'II':null,
+      'III':null,
+      'V1':null,
+      'V2':null,
+      'V3':null,
+      'V4':null,
+      'V5':null,
+      'V6':null,
+      'aVR':null,
+      'aVL':null,
+      'aVF':null,
+      }
+      total_packetaaa.push(temp);
+    return total_packetaaa;
+    }
+    else {return 0;}
+    //else{
+    //query.where.time= {$gte:(check.get_12leads)*1000 , $lt:(check.get_12leads+1)*1000 };
+      //}       
+      //query.take=sample_rate;
+     //var check;
+//if (Boolean((check = await this.userService.getUserById(params.id)).userId ))
+var _get = await this.ecgdata12Repository.find(query);
+	if(!_get[0]){
+	var t_time;
+	var last=Math.floor(check.lasttime_12lead);
+	if(params.from<last-5){
+	t_time=last-5;
+	}
+	else {
+	t_time=params.from;
+	}
+	total_packetaaa[0]={
+	'userId':params.id,
+	'time':t_time,
+        'I':null,
+        'II':null,
+        'III':null,
+        'V1':null,
+        'V2':null,
+        'V3':null,
+        'V4':null,
+        'V5':null,
+        'V6':null,
+        'aVR':null,
+        'aVL':null,
+        'aVF':null,
+        } 
+    return total_packetaaa;
+    }
+     
+     //await this.userRepository.update({userId:params.id} , {get_12leads:params.from+1});
+     //else if (_get[0] && !params.to && !params.from)
+     //await this.userRepository.update({userId:params.id} , {get_12leads:check.get_12leads+1});
+  var cnt=0;
+  var packet_cnt=0;
+  var total_packet:any = [];
+  var I: Ecgdata12[] = [];
+  var II: Ecgdata12[] = [];
+  var III: Ecgdata12[] = [];
+  var V1: Ecgdata12[] = [];
+  var V2: Ecgdata12[] = [];
+  var V3: Ecgdata12[] = [];
+  var V4: Ecgdata12[] = [];
+  var V5: Ecgdata12[] = [];
+  var V6: Ecgdata12[] = [];
+  var aVR: Ecgdata12[] = [];
+  var aVL: Ecgdata12[] = [];
+  var aVF: Ecgdata12[] = [];
+  var time=0.0;
+  var floatpoint_num=3;
+  _get.forEach(p=>
+  {
+var o:any=[];
+o=p;
+var total_packet={
+	'userId':params.id,
+        'time':o.time+1,
+	'I':o.I.map(x=>x.toFixed(floatpoint_num)),
+	'II':o.II.map(x=>x.toFixed(floatpoint_num)),
+	'III':o.III.map(x=>x.toFixed(floatpoint_num)),
+        'V1':o.V1.map(x=>x.toFixed(floatpoint_num)),
+        'V2':o.V2.map(x=>x.toFixed(floatpoint_num)),
+        'V3':o.V3.map(x=>x.toFixed(floatpoint_num)),
+        'V4':o.V4.map(x=>x.toFixed(floatpoint_num)),
+        'V5':o.V5.map(x=>x.toFixed(floatpoint_num)),
+        'V6':o.V6.map(x=>x.toFixed(floatpoint_num)),
+        'aVR':o.aVR.map(x=>x.toFixed(floatpoint_num)),
+        'aVL':o.aVL.map(x=>x.toFixed(floatpoint_num)),
+        'aVF':o.aVF.map(x=>x.toFixed(floatpoint_num)),
+	}
+	console.log(o.time);
+      total_packetaaa.push(total_packet);
+	    } 
+    );
+    
+    //  var total_packetaaa: any = [];
+//    var i;
+
+//    for (i=0;i<cnt;i++) {
+//      total_packetaaa.push(total_packet[i]);  
+//      }
+      
+      
+    
+    
+    
+	console.log('load 12lead '+params.from+' , '+packet_cnt);
+
+    return total_packetaaa;
+  }
+
+  async deleteEcgdata12ByUser(user){
+    return await this.ecgdata12Repository.delete({user});
+  }
+}

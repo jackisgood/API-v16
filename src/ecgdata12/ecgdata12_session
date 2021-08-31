@@ -1,0 +1,401 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Between, MoreThan, InsertResult } from 'typeorm';
+import { Ecgdata12 } from './ecgdata12.entity';
+import { User } from '../users/user.entity';
+import { UserService } from 'src/users/user.service';
+import { ApiAcceptedResponse } from '@nestjs/swagger';
+const sample_rate=256;
+@Injectable()
+export class Ecgdata12Service {
+  constructor(
+    @InjectRepository(Ecgdata12)
+    private readonly ecgdata12Repository: Repository<Ecgdata12>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    private readonly userService: UserService
+  ) { }
+    
+  async createEcgdata12(params): Promise<InsertResult> {
+    return await this.ecgdata12Repository.createQueryBuilder()
+      .insert()
+      .into(Ecgdata12)
+      .values(params)
+      .execute();
+  }
+
+  async findEcgdata12ByUser(params) {
+    // find all
+    params.from=parseInt(params.from);
+    params.to=parseInt(params.to);
+    //if (!params.from && !params.limit && !params.to)
+		
+    //  return await this.ecgdata12Repository.find({user: { userId: params.id }});
+
+      //query.where.time = Between(params.from, params.to);
+    //   else {
+    //   query.where.time = MoreThan(params.from);
+
+    //   //query.take = params.limit || 2304;
+    //  }
+
+    //if (params.to) {
+
+  var total_packetaaa: any = [];   
+  
+  //if(check.get_12leads > params.from && !params.to) {
+  //return total_packetaaa;
+  //}
+
+      const query: any = {
+      where: {  userId : params.id },
+       order: { time: 'DESC' },
+       };
+var check;       
+check = await this.userRepository.findOne({where:{userId:params.id}});
+if(!check) {
+console.log("No this user");
+return "No this user";
+}
+if(params.to) {
+query.where.time= {$gte:(params.from) , $lt:(params.to)};
+query.take=5*sample_rate;
+    }
+    else if(params.from) {
+      query.where.time= {$gte:(params.from+1)*1000 , $lt:(params.from+6)*1000};
+     query.take=sample_rate*5;
+      }
+    else{
+    console.log("null time");
+    var temp={
+    'userId':params.id,
+    'time':check.lasttime_12lead/1000,
+      'I':null,
+      'II':null,
+      'III':null,
+      'V1':null,
+      'V2':null,
+      'V3':null,
+      'V4':null,
+      'V5':null,
+      'V6':null,
+      'aVR':null,
+      'aVL':null,
+      'aVF':null,
+      }
+      total_packetaaa.push(temp);
+    return total_packetaaa;
+    }
+    //else{
+    //query.where.time= {$gte:(check.get_12leads)*1000 , $lt:(check.get_12leads+1)*1000 };
+      //}       
+      //query.take=sample_rate;
+     //var check;
+//if (Boolean((check = await this.userService.getUserById(params.id)).userId ))
+var _get = await this.ecgdata12Repository.find(query);
+	if(!_get[0]){
+	var t_time;
+	var last=Math.floor(check.lasttime_12lead/1000);
+	if(params.from>=last){
+	t_time=last;
+	}
+	else {
+	t_time=last-5;
+	}
+	total_packetaaa[0]={
+	'userId':params.id,
+	'time':t_time,
+        'I':null,
+        'II':null,
+        'III':null,
+        'V1':null,
+        'V2':null,
+        'V3':null,
+        'V4':null,
+        'V5':null,
+        'V6':null,
+        'aVR':null,
+        'aVL':null,
+        'aVF':null,
+        } 
+    return total_packetaaa;
+    }
+     
+     //await this.userRepository.update({userId:params.id} , {get_12leads:params.from+1});
+     //else if (_get[0] && !params.to && !params.from)
+     //await this.userRepository.update({userId:params.id} , {get_12leads:check.get_12leads+1});
+  var cnt=0;
+  var packet_cnt=0;
+  var total_packet:any = [];
+  var I: Ecgdata12[] = [];
+  var II: Ecgdata12[] = [];
+  var III: Ecgdata12[] = [];
+  var V1: Ecgdata12[] = [];
+  var V2: Ecgdata12[] = [];
+  var V3: Ecgdata12[] = [];
+  var V4: Ecgdata12[] = [];
+  var V5: Ecgdata12[] = [];
+  var V6: Ecgdata12[] = [];
+  var aVR: Ecgdata12[] = [];
+  var aVL: Ecgdata12[] = [];
+  var aVF: Ecgdata12[] = [];
+  var time=0.0;
+  _get.forEach(p=>
+  {
+      if (cnt==0) {
+      time=p.time;
+      }
+      cnt++;
+          var tmp  :any;
+          var tmp2: any ;
+          var tmp3 : any;
+          var tmp4 : any;
+          var tmp5 : any;
+          var tmp6 : any;
+          var tmp7 : any;
+          var tmp8 : any;
+          var tmp9 : any;
+          var tmp10 : any;
+          var tmp11 : any;
+	  var tmp12 : any;
+	      tmp=p.I.toFixed(2);
+	      tmp2=p.II.toFixed(2);
+	      tmp3=p.III.toFixed(2);
+	      tmp4=p.V1.toFixed(2);
+	      tmp5=p.V2.toFixed(2);
+	      tmp6=p.V3.toFixed(2);
+	      tmp7=p.V4.toFixed(2);
+	      tmp8=p.V5.toFixed(2);
+	      tmp9=p.V6.toFixed(2);
+	      tmp10=p.aVR.toFixed(2);
+	      tmp11=p.aVL.toFixed(2);
+	      tmp12=p.aVF.toFixed(2);
+            I.unshift(tmp);
+            II.unshift(tmp2);
+            III.unshift(tmp3);
+            V1.unshift(tmp4);
+	    V2.unshift(tmp5);
+	    V3.unshift(tmp6);
+	    V4.unshift(tmp7);
+	    V5.unshift(tmp8);
+	    V6.unshift(tmp9);
+            aVR.unshift(tmp10);
+	    aVL.unshift(tmp11);
+	    aVF.unshift(tmp12);
+            if(cnt==sample_rate) {
+              total_packet[packet_cnt]={
+	      'userId':params.id,
+	      'time':Math.floor(time/1000),
+                'I':I,
+                'II':II,
+                'III':III,
+                'V1':V1,
+                'V2':V2,
+                'V3':V3,
+                'V4':V4,
+                'V5':V5,
+                'V6':V6,
+                'aVR':aVR,
+                'aVL':aVL,
+                'aVF':aVF, 
+              } 
+              cnt=0;
+              packet_cnt++;
+              I  = [];
+              II  = [];
+              III  = [];
+              V1  = [];
+              V2  = [];
+              V3  = [];
+              V4  = [];
+              V5  = [];
+              V6  = [];
+              aVR  = [];
+              aVL  = [];
+              aVF  = [];
+            }
+      }
+    );
+    total_packet[packet_cnt]={
+    'userId':params.id,
+    'time':Math.floor(time/1000),
+      'I':I,
+      'II':II,
+      'III':III,
+      'V1':V1,
+      'V2':V2,
+      'V3':V3,
+      'V4':V4,
+      'V5':V5,
+      'V6':V6,
+      'aVR':aVR,
+      'aVL':aVL,
+      'aVF':aVF, 
+    } 
+    
+    var i;
+    if(params.to) {
+    for (i=0;i<packet_cnt+cnt/sample_rate;i++) {
+      total_packetaaa.unshift(total_packet[i]);  
+      }
+    }
+    else {
+    total_packetaaa.unshift(total_packet[0]);
+    }
+      
+    
+    
+    
+
+
+    return total_packetaaa;
+  }
+
+  async deleteEcgdata12ByUser(user){
+    return await this.ecgdata12Repository.delete({user});
+    }
+
+  async session_ecgdata12(Patient_ID){
+    check = await this.userRepository.findOne({where:{userId:params.id}});
+    var to_time = check.lasttime_12lead;
+    var from_time =  0;
+    const query: any = {
+      where: {  userId : Patient_ID },
+      order: { time: 'DESC' },
+    }; 
+    var out=0;
+    while(1) {
+      query.where.time = ($lt:to_time);
+      if (from_time) {
+        query.where.time = {$gte:from_time};
+	query.order.time='ASC';
+      }
+      query.take = sample_rate*5;
+
+      var _get = await this.ecgdata12Repository.find(query);
+      if(!_get[0]){
+        if(out>3) {
+	break;
+	}
+      out = out + 1;
+      continue;
+      }
+  var cnt=0;
+  var packet_cnt=0;
+  var total_packet:any = [];
+  var I: Ecgdata12[] = [];
+  var II: Ecgdata12[] = [];
+  var III: Ecgdata12[] = [];
+  var V1: Ecgdata12[] = [];
+  var V2: Ecgdata12[] = [];
+  var V3: Ecgdata12[] = [];
+  var V4: Ecgdata12[] = [];
+  var V5: Ecgdata12[] = [];
+  var V6: Ecgdata12[] = [];
+  var aVR: Ecgdata12[] = [];
+  var aVL: Ecgdata12[] = [];
+  var aVF: Ecgdata12[] = [];
+  _get.forEach(p=>
+  {
+      if (cnt==0) {
+      from_time=p.time;
+      }
+      cnt++;
+          var tmp  :any;
+          var tmp2: any ;
+          var tmp3 : any;
+          var tmp4 : any;
+          var tmp5 : any;
+          var tmp6 : any;
+          var tmp7 : any;
+          var tmp8 : any;
+          var tmp9 : any;
+          var tmp10 : any;
+          var tmp11 : any;
+	  var tmp12 : any;
+
+              tmp=p.I.toFixed(2);
+              tmp2=p.II.toFixed(2);
+              tmp3=p.III.toFixed(2);
+              tmp4=p.V1.toFixed(2);
+              tmp5=p.V2.toFixed(2);
+              tmp6=p.V3.toFixed(2);
+              tmp7=p.V4.toFixed(2);
+              tmp8=p.V5.toFixed(2);
+              tmp9=p.V6.toFixed(2);
+              tmp10=p.aVR.toFixed(2);
+              tmp11=p.aVL.toFixed(2);
+	      tmp12=p.aVF.toFixed(2);
+	  I.unshift(tmp);
+            II.unshift(tmp2);
+            III.unshift(tmp3);
+            V1.unshift(tmp4);
+            V2.unshift(tmp5);
+            V3.unshift(tmp6);
+            V4.unshift(tmp7);
+            V5.unshift(tmp8);
+            V6.unshift(tmp9);
+            aVR.unshift(tmp10);
+            aVL.unshift(tmp11);
+            aVF.unshift(tmp12);
+            if(cnt==sample_rate) {
+              total_packet[packet_cnt]={
+              'userId':params.id,
+              'time':from_time,
+                'I':I,
+                'II':II,
+                'III':III,
+                'V1':V1,
+                'V2':V2,
+                'V3':V3,
+                'V4':V4,
+                'V5':V5,
+                'V6':V6,
+                'aVR':aVR,
+                'aVL':aVL,
+                'aVF':aVF,
+              }
+              cnt=0;
+              packet_cnt++;
+              I  = [];
+              II  = [];
+              III  = [];
+              V1  = [];
+              V2  = [];
+              V3  = [];
+              V4  = [];
+              V5  = [];
+              V6  = [];
+              aVR  = [];
+              aVL  = [];
+              aVF  = [];
+            }
+        }
+      );
+      total_packet[packet_cnt]={
+    'userId':params.id,
+    'time':Math.floor(time/1000),
+      'I':I,
+      'II':II,
+      'III':III,
+      'V1':V1,
+      'V2':V2,
+      'V3':V3,
+      'V4':V4,
+      'V5':V5,
+      'V6':V6,
+      'aVR':aVR,
+      'aVL':aVL,
+      'aVF':aVF,
+    }
+
+    var i;
+    if(cnt > 0) {
+      packet_cnt
+    }
+    total_packetaaa.unshift(total_packet[0]);
+    
+
+      }
+    }
+}
