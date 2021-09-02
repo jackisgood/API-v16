@@ -274,7 +274,7 @@ console.log('timeout');
       			
             for (var i=0; i<3; i++) {
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
-              eval("d"+i+1+"="data_decode(reg[1],scale)";");
+              eval("d"+i+1+"=data_decode(reg[1],scale);");
             }
             
 			var raw:any=[];
@@ -360,7 +360,7 @@ console.log('timeout');
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
               var decode=data_decode(reg[1],scale);
               var data_name=kkk.content.SenHub.SenData.e[i].n.split("/");
-              var Object.assign(data,{data_name[1]:decode});
+              Object.assign(data,{data_name[1]:decode});
             } 
        			await this.ecgrealtime3Service.createEcgrealtime3(data);
        			await this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_3lead:data.Ecg_time, lasttime_Ts:data.Current_time});
