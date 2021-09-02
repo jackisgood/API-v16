@@ -43,7 +43,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function data_decode(data) {
+function data_decode(data,scale) {
   var output:any=[];
   for (var i =0; i < data.length;i=i+4) {
               var tmp='0x'+data[i]+data[i+1]+data[i+2]+data[i+3];
@@ -242,7 +242,7 @@ console.log('timeout');
       		var gain_offset=4;
       		var scale=2.4/3.5/Math.pow(2,22)*128/gain_offset;
       		var reg1=kkk.content.SenHub.SenData.e[0].sv.split(",");
-          vat msg_len=kkk.content.SenHub.SenData.e.length
+          var msg_len=kkk.content.SenHub.SenData.e.length
       		var t=reg1[0];
       		t=parseInt(t);
       		//var reg2=kkk.content.SenHub.SenData.e[1].sv.split(",");
@@ -274,7 +274,7 @@ console.log('timeout');
       			
             for (var i=0; i<3; i++) {
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
-              eval("d"+i+1+"="data_decode(reg[1])";");
+              eval("d"+i+1+"="data_decode(reg[1],scale)";");
             }
             
 			var raw:any=[];
@@ -358,7 +358,7 @@ console.log('timeout');
       			}
             for (var i=5; i<msg_len; i++) {
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
-              var decode=data_decode(reg[1]);
+              var decode=data_decode(reg[1],scale);
               var data_name=kkk.content.SenHub.SenData.e[i].n.split("/");
               var Object.assign(data,{data_name[1]:decode});
             } 
