@@ -199,7 +199,7 @@ method: 'GET',
         client.unsubscribe(sub_top);
 	client.end();
 	if (handoff_status.Status){
-	const req=http.request(opt,res=>{res.on('data',d=>{console.log(res)})});
+	const req=http.request(opt,res=>{res.on('data',d=>{console.log("")})});
 	req.end();
 console.log('handoff');	
 }
@@ -350,18 +350,29 @@ console.log('timeout');
                                 //PPG_2:ppg2,
                                 //PPG_3:ppg3,
                                 rssi:rssi_reg[1],
-                                battery:battery_reg[1],
                                 Patient_CodeID:patient_code,
                                 //RPN_Id:param.ECG_3leadInfoViewModels_uploads[j].RPN_Id,
                                 //Result:param.ECG_3leadInfoViewModels_uploads[j].Result,
                                 //Message:param.ECG_3leadInfoViewModels_uploads[j].Message,       
       			}
+            if(4<=msg_len) {
+              var reg=kkk.content.SenHub.SenData.e[4].sv.split(",");
+              var data_name=kkk.content.SenHub.SenData.e[4].n.split("/");
+              var name = data_name[1];
+              var obj = {};
+              obj[name] = reg[1];
+              Object.assign(data,obj);
+            }
             for (var i=5; i<msg_len; i++) {
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
               var decode=data_decode(reg[1],scale);
               var data_name=kkk.content.SenHub.SenData.e[i].n.split("/");
-              Object.assign(data,{data_name[1]:decode});
-            } 
+              var name = data_name[1];
+              var obj = {};
+              obj[name] = decode;
+              Object.assign(data,obj);
+            }
+
        			await this.ecgrealtime3Service.createEcgrealtime3(data);
        			await this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_3lead:data.Ecg_time, lasttime_Ts:data.Current_time});
        			//this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_Ts:data.Current_time});
