@@ -274,7 +274,8 @@ console.log('timeout');
       			
             for (var i=0; i<3; i++) {
               var reg=kkk.content.SenHub.SenData.e[i].sv.split(",");
-              eval("d"+i+1+"=data_decode(reg[1],scale);");
+	      var num=i+1;
+              eval("d"+num+"=data_decode(reg[1],scale);");
             }
             
 			var raw:any=[];
