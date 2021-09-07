@@ -45,12 +45,7 @@ export class UserController {
 	 }
 
 
-	 @Put('users/3leads/upload/:patient_code')
-    userUpdate3leads(@Body() param:object,
-    )  {
-   
-         return this.userService.update3leads(param);
-    }
+
 	
 	
 }
