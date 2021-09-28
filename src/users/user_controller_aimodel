@@ -44,7 +44,7 @@ export class UserController {
          return this.userService.updateStatus(agentid, patient_code, status);
 	 }
 
-  @Put('users/model/:patient_code/:model/:status')
+  @Get('users/model/:patient_code/:model/:status')
   userUpdateModel(
     		     @Param('patient_code') patient_code:string,
              @Param('model') model:string,
@@ -53,12 +53,6 @@ export class UserController {
 	console.log("change "+patient_code+" "+model+" to "+status);
          return this.userService.updateModel(patient_code, model, status);
 	 }
-	 @Put('users/3leads/upload/:patient_code')
-    userUpdate3leads(@Body() param:object,
-    )  {
-   
-         return this.userService.update3leads(param);
-    }
-	
+
 	
 }
