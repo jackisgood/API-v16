@@ -44,8 +44,21 @@ export class User {
     MI_ON:number;
 
     @Column({ type:'int' })
+    HF_ON:number;
+
+    @Column({ type:'int' })
+    VF_ON:number;
+
+    @Column({ type:'int' })
     AF_detect:number;
 
     @Column({ type:'int' })
     is_detected_mi:number;
+
+    @Column({ type:'int' })
+    VF_detect:number;
+
+    @Column({ type:'int' })
+    HF_detect:number;
+
 }
