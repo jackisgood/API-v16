@@ -53,7 +53,7 @@ export class User {
     AF_detect:number;
 
     @Column({ type:'int' })
-    is_detected_mi:number;
+    MI_detect:number;
 
     @Column({ type:'int' })
     VF_detect:number;
