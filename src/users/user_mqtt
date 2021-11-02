@@ -212,7 +212,7 @@ console.log('timeout');
       if (check_status.Status) {
           //for(var j=0;j<param.ECG_3leadInfoViewModels_uploads.length;j++) {
 		var data:any=[];
-      		var gain_offset=4;
+      		var gain_offset=16;
       		var scale=2.4/3.5/Math.pow(2,22)*128/gain_offset;
       		var reg1=kkk.content.SenHub.SenData.e[0].sv.split(",");
       		var t=reg1[0];
