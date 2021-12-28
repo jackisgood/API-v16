@@ -60,7 +60,26 @@ export class UserService {
   }
 
     async getUserById(id:string): Promise<User> {
-        return await this.userRepository.findOne({ 'userId': id } );
+    	var res = await this.userRepository.findOne({ 'userId': id } );
+	if(!res["Denoise_ON"])
+	    Object.assign(res, {"Denoise_ON":0});
+	if(!res["AF_ON"])
+	    Object.assign(res, {"AF_ON":0});
+	if(!res["MI_ON"])
+	    Object.assign(res, {"MI_ON":0});
+	if(!res["HF_ON"])
+	    Object.assign(res, {"HF_ON":0});
+	if(!res["VF_ON"])
+	    Object.assign(res, {"VF_ON":0});
+	if(!res["AF_detect"])
+	    Object.assign(res, {"AF_detect":0});
+	if(!res["MI_detect"])
+	    Object.assign(res, {"MI_detect":0});
+	if(!res["VF_detect"])
+	    Object.assign(res, {"VF_detect":0});
+	if(!res["HF_detect"])
+	    Object.assign(res, {"HF_detect":0});
+        return res;
 	}
     async getuserStatus(id:string){
     //var start=new Date().getTime();
