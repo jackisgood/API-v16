@@ -31,8 +31,8 @@ export class User {
     @Column({ type:'int' })
     visible:number;
 
-    @Column({ type:'double' })
-    get_12leads:number;
+    //@Column({ type:'double' })
+    //get_12leads:number;
   
     @Column({ type:'int' })
     Denoise_ON:number;
