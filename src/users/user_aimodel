@@ -103,13 +103,13 @@ export class UserService {
 	if(!res["HF_detect"])
 	    Object.assign(res, {"HF_detect":0});
 	if(!res["MI_ON_ref"])
-          Object.assign(res, {"HF_detect":0});
+          Object.assign(res, {"MI_ON_ref":0});
         if(!res["AF_ON_ref"])
-          Object.assign(res, {"HF_detect":0});
+          Object.assign(res, {"AF_ON_ref":0});
         if(!res["VF_ON_ref"])
-          Object.assign(res, {"HF_detect":0});
+          Object.assign(res, {"VF_ON_ref":0});
         if(!res["HF_ON_ref"])
-          Object.assign(res, {"HF_detect":0});
+          Object.assign(res, {"HF_ON_ref":0});
 
         return res;
 	}
