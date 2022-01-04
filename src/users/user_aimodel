@@ -151,7 +151,7 @@ export class UserService {
   return model+" model change";
   }
   
-  async updateModel(patient_code, model, status, reference) {
+  async updateReference(patient_code, model, status, reference) {
     status=parseInt(status);
     reference=paresInt(reference);
     const Isuser = await this.userRepository.findOne({ userId: patient_code });
