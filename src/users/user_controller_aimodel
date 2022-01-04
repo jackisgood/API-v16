@@ -61,8 +61,13 @@ export class UserController {
              @Param('status') status:string,
 	     @Param('reference') reference:string,
 		     )  {
-	console.log("change "+patient_code+" "+model+" to "+status+", reference to "+ reference);
-         return this.userService.updateReference(patient_code, model, status, reference);
+	if (model == "MI_ON" || model == "HF_ON" || model == "AF_ON" || model == "VF_ON" ) {
+          console.log("change "+patient_code+" "+model+" to "+status+", reference to "+ reference);
+          return this.userService.updateReference(patient_code, model, status, reference);
+        }
+        else {
+          return "wrong model";
+        }
 	 }
 
 	
