@@ -44,8 +44,15 @@ export class UserController {
          return this.userService.updateStatus(agentid, patient_code, status);
 	 }
 
+  @Get('users/model/:patient_code/:model/:status')
+  userUpdateModel(
+    		     @Param('patient_code') patient_code:string,
+             @Param('model') model:string,
+             @Param('status') status:string,
+		     )  {
+	console.log("change "+patient_code+" "+model+" to "+status);
+         return this.userService.updateModel(patient_code, model, status);
+	 }
 
-
-	
 	
 }
