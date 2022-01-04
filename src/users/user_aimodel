@@ -102,6 +102,15 @@ export class UserService {
 	    Object.assign(res, {"VF_detect":0});
 	if(!res["HF_detect"])
 	    Object.assign(res, {"HF_detect":0});
+	if(!res["MI_ON_ref"])
+          Object.assign(res, {"HF_detect":0});
+        if(!res["AF_ON_ref"])
+          Object.assign(res, {"HF_detect":0});
+        if(!res["VF_ON_ref"])
+          Object.assign(res, {"HF_detect":0});
+        if(!res["HF_ON_ref"])
+          Object.assign(res, {"HF_detect":0});
+
         return res;
 	}
     async getuserStatus(id:string){
