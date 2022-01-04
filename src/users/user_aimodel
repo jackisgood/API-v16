@@ -60,7 +60,7 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-    async getUserById(id:string): Promise<User> {
+    async getUserById(id:string){
     	var res = await this.userRepository.findOne({ 'userId': id } );
 	if(!res) {
 	var no_user = { 
@@ -148,6 +148,18 @@ export class UserService {
       return "NO user";
     }
 	await this.userRepository.update({userId:patient_code} , {[model]:status});
+  return model+" model change";
+  }
+  
+  async updateModel(patient_code, model, status, reference) {
+    status=parseInt(status);
+    reference=paresInt(reference);
+    const Isuser = await this.userRepository.findOne({ userId: patient_code });
+    if (!Isuser) {
+      return "NO user";
+    }
+    var ref = model + "_ref";
+	await this.userRepository.update({userId:patient_code} , {[model]:status, [ref]:reference});
   return model+" model change";
   }
 
