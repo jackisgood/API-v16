@@ -81,7 +81,11 @@ export class UserService {
 		"AF_detect":0,
 		"MI_detect":0,
 		"VF_detect":0,
-		"HF_detect":0};
+		"HF_detect":0,
+		"MI_ON_ref":0,
+		"VF_ON_ref":0,
+		"HF_ON_ref":0,
+		"AF_ON_ref":0};
 	return no_user;
 	}
 	if(!res["Denoise_ON"])
