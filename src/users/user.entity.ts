@@ -60,5 +60,17 @@ export class User {
 
     @Column({ type:'int' })
     HF_detect:number;
+  
+    @Column({ type:'int' })
+    HF_ref:number;
+  
+    @Column({ type:'int' })
+    AF_ref:number;
+  
+    @Column({ type:'int' })
+    MI_ref:number;
+  
+    @Column({ type:'int' })
+    VF_ref:number;
 
 }
