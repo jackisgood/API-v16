@@ -53,6 +53,17 @@ export class UserController {
 	console.log("change "+patient_code+" "+model+" to "+status);
          return this.userService.updateModel(patient_code, model, status);
 	 }
+	 
+  @Get('users/model/:patient_code/:model/:status/:reference')
+  userUpdateReference(
+    	     @Param('patient_code') patient_code:string,
+             @Param('model') model:string,
+             @Param('status') status:string,
+	     @Param('reference') reference:string,
+		     )  {
+	console.log("change "+patient_code+" "+model+" to "+status+", reference to "+ reference);
+         return this.userService.updateReference(patient_code, model, status, reference);
+	 }
 
 	
 }
