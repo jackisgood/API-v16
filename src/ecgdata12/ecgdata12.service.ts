@@ -57,7 +57,7 @@ console.log(456);
 console.log(Math.floor(params.from));
 console.log(Math.floor(params.to));
 query.where.Ecg_time= {$gte:Math.floor(params.from) , $lt:Math.floor(params.to)};
-query.take=5;
+query.take=60;
     }
     else if(params.from) {
     console.log('Load 3leads');
