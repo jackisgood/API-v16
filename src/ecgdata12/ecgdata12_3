@@ -57,7 +57,7 @@ console.log(456);
 console.log(Math.floor(params.from));
 console.log(Math.floor(params.to));
 query.where.Ecg_time= {$gte:Math.floor(params.from) , $lt:Math.floor(params.to)};
-query.take=5;
+query.take=60;
     }
     else if(params.from) {
     console.log('Load 3leads');
@@ -146,7 +146,7 @@ query.take=5;
   var aVF: Ecgdata12[] = [];
   var time=params.from+4;
   var lost = 0;
-  for(var p=0;p<5;p++) {
+  for(var p=0;p<60;p++) {
   var d1:any=[];
   var d2:any=[];
   var d3:any=[];
