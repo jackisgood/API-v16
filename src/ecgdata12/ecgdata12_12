@@ -60,7 +60,7 @@ return "No this user";
 }
 if(params.to) {
 query.where.time= {$gte:(params.from) , $lt:(params.to)};
-query.take=5;
+query.take=60;
     }
     else if(params.from) {
       query.where.time= {$gte:(params.from) , $lt:(params.from+5)};
